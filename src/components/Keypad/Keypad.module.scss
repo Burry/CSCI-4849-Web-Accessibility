@@ -1,0 +1,81 @@
+@import '../../styles/variables';
+
+.root {
+    max-width: 320px;
+}
+
+.input {
+    width: 100%;
+    height: calc(3rem + 2px);
+    font-size: 2.5rem;
+    line-height: 2.5rem;
+    text-align: center;
+    text-overflow: ellipsis;
+
+    &:focus {
+        outline: none;
+        box-shadow: none;
+    }
+}
+
+.buttonRow {
+    user-select: none;
+}
+
+.button {
+    display: inline-block;
+    padding: 0;
+    width: 75px;
+    height: 75px;
+    font-size: 2.5rem;
+    font-weight: 400;
+    text-align: center;
+    border-color: transparent;
+    border-radius: 50%;
+    touch-action: manipulation;
+    transition: none;
+
+    &:focus,
+    &:not(:disabled):not(.disabled):active:focus {
+        box-shadow: none;
+    }
+}
+
+.numberButton {
+    &:focus {
+        background: darken($secondary, 7.5%);
+    }
+}
+
+.numberLabel {
+    width: 75px;
+    display: block;
+    margin-bottom: 2.5rem;
+    margin-top: -0.75rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 2px;
+}
+
+.callButton {
+    font-size: 2rem;
+    line-height: 75px;
+
+    &:focus {
+        background: darken($success, 7.5%);
+    }
+}
+
+.backspaceButton {
+    color: $dark;
+    font-size: 1.5rem;
+
+    &:focus,
+    &:hover {
+        color: $danger;
+    }
+
+    &:active {
+        color: darker($danger, 5%);
+    }
+}

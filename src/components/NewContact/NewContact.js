@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { func } from 'prop-types';
-import classnames from 'classnames';
+import classNames from 'classnames';
 import { Helmet } from 'react-helmet';
 import { push } from 'connected-react-router';
 import { connect } from 'react-redux';
@@ -156,7 +156,7 @@ const NewContact = ({ addContact, pushRoute }) => {
                     isInvalid={invalid.email}
                 />
                 <Form.Row
-                    className={classnames(
+                    className={classNames(
                         'pt-3',
                         'text-center',
                         'align-items-center'

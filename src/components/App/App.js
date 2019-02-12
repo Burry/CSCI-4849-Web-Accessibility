@@ -6,6 +6,7 @@ import Keypad from '../Keypad';
 import Contacts from '../Contacts';
 import Contact from '../Contact';
 import NewContact from '../NewContact';
+import About from '../About';
 import NotFound from '../NotFound';
 
 const App = () => (
@@ -23,6 +24,7 @@ const App = () => (
                 <Route path="/contacts" exact component={Contacts} />
                 <Route path="/contacts/:contactURI" exact component={Contact} />
                 <Route path="/new-contact" exact component={NewContact} />
+                <Route path="/about" exact component={About} />
                 <Route component={NotFound} />
             </Switch>
         </div>

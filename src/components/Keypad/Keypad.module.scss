@@ -59,7 +59,7 @@
 
 .callButton {
     font-size: 2rem;
-    line-height: 75px;
+    line-height: 0;
 
     &:focus {
         background: darken($success, 7.5%);

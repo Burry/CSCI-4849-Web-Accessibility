@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { shape, string, func } from 'prop-types';
-import classnames from 'classnames';
+import classNames from 'classnames';
 import { Helmet } from 'react-helmet';
 import { connect } from 'react-redux';
 import { createMatchSelector, push } from 'connected-react-router';
@@ -14,7 +14,8 @@ import Button from 'react-bootstrap/Button';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Tooltip from 'react-bootstrap/Tooltip';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPhone, faBackspace } from '@fortawesome/pro-solid-svg-icons';
+import { faBackspace } from '@fortawesome/pro-solid-svg-icons';
+import PhoneIcon from '../PhoneIcon';
 import styles from './Keypad.module.scss';
 
 const newPhoneNumber = value => new PhoneNumber(value, 'US');
@@ -76,7 +77,7 @@ const Keypad = ({ router, pushRoute }) => {
 
     const ButtonRow = ({ children, className = '' }) => (
         <Row
-            className={classnames(
+            className={classNames(
                 styles.buttonRow,
                 'mt-3',
                 'mb-sm-4',
@@ -92,7 +93,7 @@ const Keypad = ({ router, pushRoute }) => {
         <Col>
             <Button
                 variant="secondary"
-                className={classnames(
+                className={classNames(
                     styles.button,
                     styles.numberButton,
                     className
@@ -117,7 +118,7 @@ const Keypad = ({ router, pushRoute }) => {
                 value={number}
                 aria-label="Phone number"
                 onChange={handleInputChange}
-                className={classnames(styles.input, 'mb-4', 'border-0')}
+                className={classNames(styles.input, 'mb-4', 'border-0')}
                 ref={numberInput}
             />
             <Container className={styles.root}>
@@ -167,14 +168,15 @@ const Keypad = ({ router, pushRoute }) => {
                             type="submit"
                             variant="success"
                             disabled={undefinedNumber}
-                            className={classnames(
+                            className={classNames(
                                 styles.button,
                                 styles.callButton
                             )}
                             aria-label={`Call ${number}`}
                             onClick={!undefinedNumber ? callNumber : undefined}
                         >
-                            <FontAwesomeIcon icon={faPhone} />
+
+                            <PhoneIcon height="30px" />
                         </Button>
                     </Col>
                     <Col>
@@ -196,7 +198,7 @@ const Keypad = ({ router, pushRoute }) => {
                             >
                                 <Button
                                     variant="link"
-                                    className={classnames(
+                                    className={classNames(
                                         styles.button,
                                         styles.backspaceButton
                                     )}

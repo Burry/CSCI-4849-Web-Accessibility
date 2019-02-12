@@ -1,6 +1,6 @@
 import React from 'react';
 import { arrayOf, shape, string } from 'prop-types';
-import classnames from 'classnames';
+import classNames from 'classnames';
 import { Helmet } from 'react-helmet';
 import { connect } from 'react-redux';
 import { createMatchSelector } from 'connected-react-router';
@@ -28,7 +28,7 @@ const Contact = ({ router, contacts }) => {
         <FontAwesomeIcon
             icon={icon}
             fixedWidth
-            className={classnames('mr-3', `text-${variant}`)}
+            className={classNames('mr-3', `text-${variant}`)}
         />
     );
 
@@ -38,7 +38,7 @@ const Contact = ({ router, contacts }) => {
             <h4 className="ml-3">
                 <Link
                     to="/contacts"
-                    className={classnames('mr-2', 'text-dark')}
+                    className={classNames('mr-2', 'text-dark')}
                 >
                     <FontAwesomeIcon
                         icon={faChevronLeft}

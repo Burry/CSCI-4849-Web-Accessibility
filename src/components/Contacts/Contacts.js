@@ -1,6 +1,6 @@
 import React from 'react';
 import { arrayOf, shape, string } from 'prop-types';
-import classnames from 'classnames';
+import classNames from 'classnames';
 import { Helmet } from 'react-helmet';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
@@ -11,7 +11,7 @@ import ListGroup from 'react-bootstrap/ListGroup';
 const Contacts = ({ contacts }) => (
     <Container className="px-0">
         <Helmet title="Phone » Contacts" />
-        <h2 className={classnames('ml-3', 'mb-4')}>Contacts</h2>
+        <h2 className={classNames('ml-3', 'mb-4')}>Contacts</h2>
         <ListGroup
             variant={isMobile && 'flush'}
             className={!isMobile && 'px-3'}

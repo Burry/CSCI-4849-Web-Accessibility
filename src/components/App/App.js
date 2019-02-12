@@ -12,7 +12,7 @@ const App = () => (
     <>
         <Helmet defaultTitle="Phone" />
         <Navbar />
-        <div className="mt-4 mb-5 pb-5">
+        <div className="mt-4 mb-5 pb-5" role="main">
             <Switch>
                 <Route
                     path="/"

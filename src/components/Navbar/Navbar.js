@@ -13,7 +13,7 @@ const Navbar = () => (
         fixed="bottom"
         className={classnames(styles.root, 'p-0', 'bg-light')}
     >
-        <Nav className="mx-auto">
+        <Nav className="mx-auto" role="navigation">
             <NavLink to="/keypad" label="Keypad" icon={faTh} />
             <NavLink to="/contacts" label="Contacts" icon={faBookUser} />
             <NavLink to="/new-contact" label="New Contact" icon={faUserPlus} />

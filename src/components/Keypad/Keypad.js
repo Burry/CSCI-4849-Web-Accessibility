@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { shape, string, func } from 'prop-types';
 import classNames from 'classnames';
 import { Helmet } from 'react-helmet';
+import { HotKeys } from 'react-hotkeys';
 import { connect } from 'react-redux';
 import { createMatchSelector } from 'connected-react-router';
 import { isMobile } from 'react-device-detect';
@@ -18,6 +19,29 @@ import { faBackspace } from '@fortawesome/pro-solid-svg-icons';
 import PhoneIcon from '../PhoneIcon';
 import styles from './Keypad.module.scss';
 
+const keys = [
+    { value: '1' },
+    { value: '2', label: 'ABC' },
+    { value: '3', label: 'DEF' },
+    { value: '4', label: 'GHI' },
+    { value: '5', label: 'GHI' },
+    { value: '6', label: 'MNO' },
+    { value: '7', label: 'PQRS' },
+    { value: '8', label: 'TUV' },
+    { value: '9', label: 'WXYZ' },
+    { value: '*', className: 'text-monospace' },
+    { value: '0', label: '+' },
+    { value: '#' }
+];
+
+const keyMap = {
+    ...keys.reduce((acc, { value }) => {
+        acc[value] = value;
+        return acc;
+    }, {}),
+    backspace: 'backspace'
+};
+
 const newPhoneNumber = value => new PhoneNumber(value, 'US');
 const phoneNumber = value =>
     newPhoneNumber(value).getNumber('national') || value;
@@ -32,23 +56,23 @@ const Keypad = ({ router, pushRoute }) => {
 
     const [number, setNumber] = useState(phoneNumber(numberPath));
 
-    let numberInput = React.createRef();
+    let keyRegion = React.createRef();
 
-    // TEMP: Performing check for numberInput.focus while ref appears to be broken
-    const focusNumberInput = () =>
-        !isMobile && numberInput.focus && numberInput.focus();
+    // TEMP: Performing check for keyRegion.focus while ref appears to be broken
+    const focuskeyRegion = () =>
+        !isMobile && keyRegion.focus && keyRegion.focus();
 
     const handleInputChange = ({ target: { value } }) =>
         setNumber(phoneNumber(value));
 
     const handleNumberButton = value => {
         setNumber(phoneNumber(`${number}${value}`));
-        focusNumberInput();
+        focuskeyRegion();
     };
 
     const handleBackspaceButtonClick = () => {
         setNumber(phoneNumber(number.slice(0, -1)));
-        focusNumberInput();
+        focuskeyRegion();
     };
 
     let backspaceButtonTimer;
@@ -65,12 +89,20 @@ const Keypad = ({ router, pushRoute }) => {
         const keypadPath = '/keypad';
         setNumber('');
         if (router.location.pathname !== keypadPath) pushRoute(keypadPath);
-        focusNumberInput();
+        focuskeyRegion();
     };
 
     const callNumber = event => {
         if (event) event.preventDefault();
         window.open(phoneUri(number), '_top');
+    };
+
+    const keyHandlers = {
+        ...keys.reduce((acc, { value }) => {
+            acc[value] = () => handleNumberButton(value);
+            return acc;
+        }, {}),
+        backspace: handleBackspaceButtonClick
     };
 
     const undefinedNumber = number === '';
@@ -108,115 +140,116 @@ const Keypad = ({ router, pushRoute }) => {
     );
 
     return (
-        <Form onSubmit={callNumber}>
-            <Helmet title="Phone » Keypad" />
-            {/* Number input */}
-            <Form.Control
-                size="lg"
-                type="tel"
-                //autoFocus={!isMobile}
-                value={number}
-                aria-label="Phone number"
-                onChange={handleInputChange}
-                className={classNames(styles.input, 'mb-4', 'border-0')}
-                ref={numberInput}
-            />
-            <Container className={styles.root}>
-                {/* Number buttons */}
-                {
-                    [
-                        { value: '1' },
-                        { value: '2', label: 'ABC' },
-                        { value: '3', label: 'DEF' },
-                        { value: '4', label: 'GHI' },
-                        { value: '5', label: 'GHI' },
-                        { value: '6', label: 'MNO' },
-                        { value: '7', label: 'PQRS' },
-                        { value: '8', label: 'TUV' },
-                        { value: '9', label: 'WXYZ' },
-                        { value: '*', className: 'text-monospace' },
-                        { value: '0', label: '+' },
-                        { value: '#' }
-                    ].reduce(
-                        (acc, props, idx) => {
-                            acc.buttons.push(
-                                <NumberCol
-                                    key={idx}
-                                    aria-label={props.value}
-                                    {...props}
-                                />
-                            );
-                            if ((idx + 1) % 3 === 0)
-                                acc.rows.push(
-                                    <ButtonRow key={idx}>
-                                        {acc.buttons.slice(idx - 2)}
-                                    </ButtonRow>
+        <HotKeys
+            keyMap={keyMap}
+            handlers={keyHandlers}
+            focused
+            ref={keyRegion}
+        >
+            <Form onSubmit={callNumber}>
+                <Helmet title="Phone » Keypad" />
+                {/* Number input */}
+                <Form.Control
+                    size="lg"
+                    type="tel"
+                    //autoFocus={!isMobile}
+                    value={number}
+                    aria-label="Phone number"
+                    onChange={handleInputChange}
+                    className={classNames(styles.input, 'mb-4', 'border-0')}
+                />
+                <Container className={styles.root}>
+                    {/* Number buttons */}
+                    {
+                        keys.reduce(
+                            (acc, props, idx) => {
+                                acc.buttons.push(
+                                    <NumberCol
+                                        key={idx}
+                                        aria-label={props.value}
+                                        {...props}
+                                    />
                                 );
-                            return acc;
-                        },
-                        { rows: [], buttons: [] }
-                    ).rows
-                }
-                <ButtonRow>
-                    {/* Padding */}
-                    <Col>
-                        <div className={styles.button} />
-                    </Col>
-                    {/* Call button */}
-                    <Col>
-                        <Button
-                            type="submit"
-                            variant="success"
-                            disabled={undefinedNumber}
-                            className={classNames(
-                                styles.button,
-                                styles.callButton
-                            )}
-                            aria-label={`Call ${number}`}
-                            onClick={!undefinedNumber ? callNumber : undefined}
-                        >
-                            <PhoneIcon height="30px" />
-                        </Button>
-                    </Col>
-                    <Col>
-                        {undefinedNumber ? (
-                            // Padding
+                                if ((idx + 1) % 3 === 0)
+                                    acc.rows.push(
+                                        <ButtonRow key={idx}>
+                                            {acc.buttons.slice(idx - 2)}
+                                        </ButtonRow>
+                                    );
+                                return acc;
+                            },
+                            { rows: [], buttons: [] }
+                        ).rows
+                    }
+                    <ButtonRow>
+                        {/* Padding */}
+                        <Col>
                             <div className={styles.button} />
-                        ) : (
-                            // Backspace / Clear button
-                            <OverlayTrigger
-                                placement="top"
-                                overlay={
-                                    <Tooltip
-                                        id="tooltip-clear"
-                                        className="mb-n3"
-                                    >
-                                        <small>Hold to clear</small>
-                                    </Tooltip>
+                        </Col>
+                        {/* Call button */}
+                        <Col>
+                            <Button
+                                type="submit"
+                                variant="success"
+                                disabled={undefinedNumber}
+                                className={classNames(
+                                    styles.button,
+                                    styles.callButton
+                                )}
+                                aria-label={`Call ${number}`}
+                                onClick={
+                                    !undefinedNumber ? callNumber : undefined
                                 }
                             >
-                                <Button
-                                    variant="link"
-                                    className={classNames(
-                                        styles.button,
-                                        styles.backspaceButton
-                                    )}
-                                    aria-label="Backspace / Hold to clear"
-                                    onClick={handleBackspaceButtonClick}
-                                    onTouchStart={handleBackspaceButtonPress}
-                                    onTouchEnd={handleBackspaceButtonRelease}
-                                    onMouseDown={handleBackspaceButtonPress}
-                                    onMouseUp={handleBackspaceButtonRelease}
-                                    onMouseLeave={handleBackspaceButtonRelease}
+                                <PhoneIcon height="30px" />
+                            </Button>
+                        </Col>
+                        <Col>
+                            {undefinedNumber ? (
+                                // Padding
+                                <div className={styles.button} />
+                            ) : (
+                                // Backspace / Clear button
+                                <OverlayTrigger
+                                    placement="top"
+                                    overlay={
+                                        <Tooltip
+                                            id="tooltip-clear"
+                                            className="mb-n3"
+                                        >
+                                            <small>Hold to clear</small>
+                                        </Tooltip>
+                                    }
                                 >
-                                    <FontAwesomeIcon icon={faBackspace} />
-                                </Button>
-                            </OverlayTrigger>
-                        )}
-                    </Col>
-                </ButtonRow>
-            </Container>
-        </Form>
+                                    <Button
+                                        variant="link"
+                                        className={classNames(
+                                            styles.button,
+                                            styles.backspaceButton
+                                        )}
+                                        aria-label="Backspace / Hold to clear"
+                                        onClick={handleBackspaceButtonClick}
+                                        onTouchStart={
+                                            handleBackspaceButtonPress
+                                        }
+                                        onTouchEnd={
+                                            handleBackspaceButtonRelease
+                                        }
+                                        onMouseDown={handleBackspaceButtonPress}
+                                        onMouseUp={handleBackspaceButtonRelease}
+                                        onMouseLeave={
+                                            handleBackspaceButtonRelease
+                                        }
+                                    >
+                                        <FontAwesomeIcon icon={faBackspace} />
+                                    </Button>
+                                </OverlayTrigger>
+                            )}
+                        </Col>
+                    </ButtonRow>
+                </Container>
+            </Form>
+        </HotKeys>
     );
 };
 

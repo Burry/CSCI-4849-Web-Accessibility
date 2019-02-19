@@ -1,21 +1,26 @@
 import React from 'react';
-import { string } from 'prop-types';
+import { string, oneOfType, object, array } from 'prop-types';
 import classNames from 'classnames';
 import { Helmet } from 'react-helmet';
 import Container from 'react-bootstrap/Container';
 import ListGroup from 'react-bootstrap/ListGroup';
 import PhoneIcon from '../PhoneIcon';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faBackspace } from '@fortawesome/pro-solid-svg-icons';
 import styles from './About.module.scss';
 
-const Shortcut = ({ shortcut, action }) => (
+const Shortcut = ({ shortcut, icon, action }) => (
     <ListGroup.Item className="d-flex align-items-center justify-content-between">
-        <code>{shortcut}</code>
+        <code>
+            {icon ? <FontAwesomeIcon icon={icon} fixedWidth /> : shortcut}
+        </code>
         <span>{action}</span>
     </ListGroup.Item>
 );
 
 Shortcut.propTypes = {
     shortcut: string.isRequired,
+    icon: oneOfType([object, array, string]).isRequired,
     action: string.isRequired
 };
 
@@ -37,7 +42,13 @@ const About = () => (
         >
             <PhoneIcon height="96px" />
         </div>
-        <h5>Keyboard Shortcuts</h5>
+        <h5>Keypad Shortcuts</h5>
+        <ListGroup>
+            <Shortcut shortcut="0-9, #, *" action="Enter Digit" />
+            <Shortcut icon={faBackspace} action="Backspace" />
+        </ListGroup>
+        <br />
+        <h5>Global Shortcuts</h5>
         <ListGroup>
             <Shortcut shortcut="CTRL + K" action="Keypad" />
             <Shortcut shortcut="CTRL + C" action="Contacts" />

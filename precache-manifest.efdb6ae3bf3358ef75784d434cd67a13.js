@@ -4,24 +4,24 @@ self.__precacheManifest = [
     "url": "/static/media/james-howlett.17880c10.png"
   },
   {
-    "revision": "00876552e7eacd4f9f65",
-    "url": "/static/css/main.3677aaee.chunk.css"
+    "revision": "a98f958e903160caed6e",
+    "url": "/static/css/main.9e7e0351.chunk.css"
   },
   {
     "revision": "fdfcfda2d9b1bf31db52",
     "url": "/static/js/runtime~main.fdfcfda2.js"
   },
   {
-    "revision": "341c8acd8c11c22c4daa",
-    "url": "/static/js/2.341c8acd.chunk.js"
+    "revision": "7cbfc49160ec93fc8124",
+    "url": "/static/js/2.7cbfc491.chunk.js"
   },
   {
     "revision": "f2b7803ac456ccc59742c7559f239a40",
     "url": "/static/media/robert-drake.f2b7803a.png"
   },
   {
-    "revision": "00876552e7eacd4f9f65",
-    "url": "/static/js/main.00876552.chunk.js"
+    "revision": "a98f958e903160caed6e",
+    "url": "/static/js/main.a98f958e.chunk.js"
   },
   {
     "revision": "12faba7489ba95159a3b78810eba8a30",
@@ -40,7 +40,7 @@ self.__precacheManifest = [
     "url": "/static/media/phone.79dbfba9.svg"
   },
   {
-    "revision": "b404ee01e4242972a26540e87986158b",
+    "revision": "5db2cf7ac7ab26002fce5f818a896ed4",
     "url": "/index.html"
   }
 ];

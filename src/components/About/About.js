@@ -10,21 +10,29 @@ const About = () => (
         <Helmet title="Phone » About" />
         <h2>About</h2>
         <div
-            className={
-                classNames(
-                    styles.icon,
-                    'mx-auto',
-                    'my-5',
-                    'bg-success',
-                    'd-flex',
-                    'align-items-center',
-                    'justify-content-center'
-                )
-            }
+            className={classNames(
+                styles.icon,
+                'mx-auto',
+                'my-5',
+                'bg-success',
+                'd-flex',
+                'align-items-center',
+                'justify-content-center'
+            )}
             aria-label="Phone Icon"
         >
-            <PhoneIcon height="162px" />
+            <PhoneIcon height="96px" />
         </div>
+        <p className={classNames('text-center', 'text-muted')}>
+            Contact photos &copy;&nbsp;
+            <a
+                href="http://www.allxmen.com"
+                target="_blank"
+                rel="noopener noreferrer"
+            >
+                Scott Modrzynski
+            </a>
+        </p>
         <p className={classNames('text-center', 'text-muted')}>
             &copy; Grant Burry {new Date().getFullYear()}
         </p>

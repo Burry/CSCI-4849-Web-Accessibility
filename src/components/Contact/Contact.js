@@ -7,6 +7,7 @@ import { createMatchSelector } from 'connected-react-router';
 import { Link } from 'react-router-dom';
 import { isMobile } from 'react-device-detect';
 import Container from 'react-bootstrap/Container';
+import Media from 'react-bootstrap/Media';
 import ListGroup from 'react-bootstrap/ListGroup';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
@@ -23,7 +24,7 @@ const Contact = ({ router, contacts }) => {
 
     if (!contact) return <NotFound />;
 
-    const { name, phone, email } = contact;
+    const { name, phone, email, photo } = contact;
     const Icon = ({ icon, variant }) => (
         <FontAwesomeIcon
             icon={icon}
@@ -35,10 +36,10 @@ const Contact = ({ router, contacts }) => {
     return (
         <Container className="px-0">
             <Helmet title={`Phone » Contacts » ${name}`} />
-            <h4 className="ml-3">
+            <h4>
                 <Link
                     to="/contacts"
-                    className={classNames('mr-2', 'text-dark')}
+                    className={classNames('ml-3', 'text-dark')}
                 >
                     <FontAwesomeIcon
                         icon={faChevronLeft}
@@ -46,8 +47,18 @@ const Contact = ({ router, contacts }) => {
                         size="sm"
                     />
                 </Link>
-                {name}
             </h4>
+            <Media className="align-items-center">
+                <img
+                    src={photo}
+                    alt={name}
+                    height="60px"
+                    className="ml-3 mb-3"
+                />
+                <Media.Body>
+                    <h4 className="ml-3">{name}</h4>
+                </Media.Body>
+            </Media>
             {phone || email ? (
                 <ListGroup
                     variant={isMobile && 'flush'}

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { arrayOf, shape, string } from 'prop-types';
 import classNames from 'classnames';
 import { Helmet } from 'react-helmet';
@@ -6,30 +6,102 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { isMobile } from 'react-device-detect';
 import Container from 'react-bootstrap/Container';
+import Table from 'react-bootstrap/Table';
 import ListGroup from 'react-bootstrap/ListGroup';
+import Button from 'react-bootstrap/Button';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {
+    faBars,
+    faTable,
+    faPhone,
+    faEnvelope
+} from '@fortawesome/pro-solid-svg-icons';
 
-const Contacts = ({ contacts }) => (
-    <Container className="px-0">
-        <Helmet title="Phone » Contacts" />
-        <h2 className={classNames('ml-3', 'mb-4')}>Contacts</h2>
-        <ListGroup
-            variant={isMobile && 'flush'}
-            className={!isMobile && 'px-3'}
-        >
-            {contacts.map(({ name, phone, email }, idx) => (
-                <ListGroup.Item
-                    key={`${name}-${idx}`}
-                    action
-                    as={Link}
-                    to={`/contacts/${encodeURI(name)}`}
-                    aria-label={`${name}'s Contact`}
+const Contacts = ({ contacts }) => {
+    const [isTableVisible, toggleTable] = useState(true);
+    return (
+        <Container className="px-0">
+            <Helmet title="Phone » Contacts" />
+            <div
+                className={classNames(
+                    'd-flex',
+                    'align-items-center',
+                    'justify-content-between',
+                    'mx-3',
+                    'mb-4'
+                )}
+            >
+                <h2 className="mb-0">Contacts</h2>
+                <Button
+                    variant="outline-dark"
+                    onClick={() => toggleTable(!isTableVisible)}
                 >
-                    {name}
-                </ListGroup.Item>
-            ))}
-        </ListGroup>
-    </Container>
-);
+                    <FontAwesomeIcon
+                        icon={isTableVisible ? faBars : faTable}
+                        fixedWidth
+                    />
+                </Button>
+            </div>
+            {isTableVisible ? (
+                <Table bordered={!isMobile} className={!isMobile && 'mx-3'}>
+                    <thead>
+                        <tr>
+                            <th>Photo</th>
+                            <th>Name</th>
+                            <th>Phone</th>
+                            <th>Email</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {contacts.map(({ name, phone, email, photo }) => (
+                            <tr key={name}>
+                                <td>
+                                    <img src={photo} alt={name} height="24px" />
+                                </td>
+                                <td>{name}</td>
+                                <td>
+                                    <Link
+                                        to={`/keypad/${phone}`}
+                                        className="text-success"
+                                        aria-label={`Call ${name}`}
+                                    >
+                                        <FontAwesomeIcon icon={faPhone} />
+                                    </Link>
+                                </td>
+                                <td>
+                                    <a
+                                        href={`mailto:${email}`}
+                                        className="text-primary"
+                                        aria-label={`Email ${name}`}
+                                    >
+                                        <FontAwesomeIcon icon={faEnvelope} />
+                                    </a>
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </Table>
+            ) : (
+                <ListGroup
+                    variant={isMobile && 'flush'}
+                    className={!isMobile && 'px-3'}
+                >
+                    {contacts.map(({ name, phone, email }, idx) => (
+                        <ListGroup.Item
+                            key={`${name}-${idx}`}
+                            action
+                            as={Link}
+                            to={`/contacts/${encodeURI(name)}`}
+                            aria-label={`${name}'s Contact`}
+                        >
+                            {name}
+                        </ListGroup.Item>
+                    ))}
+                </ListGroup>
+            )}
+        </Container>
+    );
+};
 
 Contacts.propTypes = {
     contacts: arrayOf(

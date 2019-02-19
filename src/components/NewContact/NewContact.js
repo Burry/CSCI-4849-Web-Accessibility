@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { func } from 'prop-types';
 import classNames from 'classnames';
 import { Helmet } from 'react-helmet';
-import { push } from 'connected-react-router';
 import { connect } from 'react-redux';
 import PhoneNumber from 'awesome-phonenumber';
 import Container from 'react-bootstrap/Container';
@@ -197,8 +196,7 @@ NewContact.propTypes = {
 };
 
 const mapDispatchToProps = {
-    addContact: _addContact,
-    pushRoute: push
+    addContact: _addContact
 };
 
 export default connect(

@@ -3,7 +3,7 @@ import { shape, string, func } from 'prop-types';
 import classNames from 'classnames';
 import { Helmet } from 'react-helmet';
 import { connect } from 'react-redux';
-import { createMatchSelector, push } from 'connected-react-router';
+import { createMatchSelector } from 'connected-react-router';
 import { isMobile } from 'react-device-detect';
 import PhoneNumber from 'awesome-phonenumber';
 import Container from 'react-bootstrap/Container';
@@ -25,10 +25,10 @@ const phoneUri = value =>
     newPhoneNumber(value).getNumber('rfc3966') || `tel:${value}`;
 
 const Keypad = ({ router, pushRoute }) => {
-    const matchSelector = createMatchSelector('/keypad/:numberPath?');
-    const {
-        params: { numberPath = '' }
-    } = matchSelector({ router });
+    const matchSelector = createMatchSelector(
+        `${router.location.pathname}/:numberPath?`
+    );
+    const { params: { numberPath = '' } = {} } = matchSelector({ router });
 
     const [number, setNumber] = useState(phoneNumber(numberPath));
 
@@ -175,7 +175,6 @@ const Keypad = ({ router, pushRoute }) => {
                             aria-label={`Call ${number}`}
                             onClick={!undefinedNumber ? callNumber : undefined}
                         >
-
                             <PhoneIcon height="30px" />
                         </Button>
                     </Col>
@@ -234,7 +233,4 @@ const mapStateToProps = ({ router }) => ({
     router
 });
 
-export default connect(
-    mapStateToProps,
-    { pushRoute: push }
-)(Keypad);
+export default connect(mapStateToProps)(Keypad);

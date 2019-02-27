@@ -36,7 +36,7 @@ const Contact = ({ router, contacts }) => {
     return (
         <Container className="px-0">
             <Helmet title={`Phone » Contacts » ${name}`} />
-            <h4>
+            <h4 className="d-inline-block">
                 <Link
                     to="/contacts"
                     className={classNames('ml-3', 'text-dark')}
@@ -48,13 +48,20 @@ const Contact = ({ router, contacts }) => {
                     />
                 </Link>
             </h4>
-            <Media className="align-items-center">
-                <img
-                    src={photo}
-                    alt={name}
-                    height="60px"
-                    className="ml-3 mb-3"
-                />
+            <Media
+                className={classNames(
+                    'align-items-center',
+                    !photo && 'd-inline-block'
+                )}
+            >
+                {photo && (
+                    <img
+                        src={photo}
+                        alt={name}
+                        height="60px"
+                        className="ml-3 mb-3"
+                    />
+                )}
                 <Media.Body>
                     <h4 className="ml-3">{name}</h4>
                 </Media.Body>

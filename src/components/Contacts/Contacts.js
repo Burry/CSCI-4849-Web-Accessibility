@@ -13,6 +13,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
     faBars,
     faTable,
+    faQuestionCircle,
     faPhone,
     faEnvelope
 } from '@fortawesome/pro-solid-svg-icons';
@@ -35,6 +36,7 @@ const Contacts = ({ contacts }) => {
                 <Button
                     variant="outline-dark"
                     onClick={() => toggleTable(!isTableVisible)}
+                    aria-label={isTableVisible ? 'Show list' : 'Show table'}
                 >
                     <FontAwesomeIcon
                         icon={isTableVisible ? faBars : faTable}
@@ -56,7 +58,18 @@ const Contacts = ({ contacts }) => {
                         {contacts.map(({ name, phone, email, photo }) => (
                             <tr key={name}>
                                 <td>
-                                    <img src={photo} alt={name} height="24px" />
+                                    {photo ? (
+                                        <img
+                                            src={photo}
+                                            alt={name}
+                                            height="24px"
+                                        />
+                                    ) : (
+                                        <FontAwesomeIcon
+                                            icon={faQuestionCircle}
+                                            fixedWidth
+                                        />
+                                    )}
                                 </td>
                                 <td>{name}</td>
                                 <td>

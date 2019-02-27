@@ -1,6 +1,6 @@
 {
     "name": "csci-4849-web-accessibility",
-    "version": "2.0.0",
+    "version": "2.1.0",
     "license": "MIT",
     "private": true,
     "homepage": "https://csci-4849-web-accessibility.grantburry.com",
@@ -52,18 +52,18 @@
         "@fortawesome/fontawesome-svg-core": "^1.2.15",
         "@fortawesome/pro-solid-svg-icons": "^5.7.2",
         "@fortawesome/react-fontawesome": "^0.1.4",
-        "awesome-phonenumber": "^2.4.2",
+        "awesome-phonenumber": "^2.5.0",
         "bootstrap": "^4.3.1",
         "classnames": "^2.2.6",
         "connected-react-router": "^6.3.1",
         "node-sass": "^4.11.0",
-        "react": "^16.8.2",
+        "react": "^16.8.3",
         "react-bootstrap": "^1.0.0-beta.5",
         "react-device-detect": "^1.6.2",
-        "react-dom": "^16.8.2",
+        "react-dom": "^16.8.3",
         "react-helmet": "^5.2.0",
         "react-hotkeys": "^1.1.4",
-        "react-redux": "^6.0.0",
+        "react-redux": "^6.0.1",
         "react-router-dom": "^4.3.1",
         "react-scripts": "2.1.5",
         "redux": "^4.0.1",
@@ -71,7 +71,7 @@
     },
     "devDependencies": {
         "eslint-config-airbnb": "^17.1.0",
-        "eslint-config-prettier": "^4.0.0",
+        "eslint-config-prettier": "^4.1.0",
         "eslint-plugin-css-modules": "^2.11.0",
         "eslint-plugin-flowtype": "^3.4.2",
         "gh-pages": "^2.0.1",
@@ -82,6 +82,6 @@
         "stylelint": "^9.10.1",
         "stylelint-config-standard": "^18.2.0",
         "stylelint-order": "^2.0.0",
-        "stylelint-scss": "^3.5.3"
+        "stylelint-scss": "^3.5.4"
     }
 }

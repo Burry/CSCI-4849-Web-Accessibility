@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { string, func } from 'prop-types';
+import { shape, func } from 'prop-types';
 import { Helmet } from 'react-helmet';
 import { HotKeys } from 'react-hotkeys';
 import { Switch, Route, Redirect } from 'react-router-dom';
@@ -29,9 +29,9 @@ const keyHandlers = (pushRoute, setState) =>
         return acc;
     }, {});
 
-const App = ({ pathname, pushRoute }) => {
+const App = ({ location, pushRoute }) => {
     /* eslint-disable no-unused-vars */
-    const [_, setPath] = useState(pathname);
+    const [_, setPath] = useState(location.pathname);
     return (
         <HotKeys
             keyMap={keyMap}
@@ -42,7 +42,7 @@ const App = ({ pathname, pushRoute }) => {
             <Helmet defaultTitle="Phone" />
             <Navbar />
             <div className="mt-4 mb-5 pb-5" role="main" aria-live="polite">
-                <Switch>
+                <Switch location={location}>
                     <Route
                         path="/"
                         exact
@@ -51,9 +51,7 @@ const App = ({ pathname, pushRoute }) => {
                     <Route
                         path="/keypad/:numberPath?"
                         exact
-                        render={props => (
-                            <Keypad pushRoute={pushRoute} {...props} />
-                        )}
+                        component={Keypad}
                     />
                     <Route path="/contacts" exact component={Contacts} />
                     <Route
@@ -61,13 +59,7 @@ const App = ({ pathname, pushRoute }) => {
                         exact
                         component={Contact}
                     />
-                    <Route
-                        path="/new-contact"
-                        exact
-                        render={props => (
-                            <NewContact pushRoute={pushRoute} {...props} />
-                        )}
-                    />
+                    <Route path="/new-contact" exact component={NewContact} />
                     <Route path="/about" exact component={About} />
                     <Route component={NotFound} />
                 </Switch>
@@ -77,15 +69,15 @@ const App = ({ pathname, pushRoute }) => {
 };
 
 App.propTypes = {
-    pathname: string.isRequired,
+    location: shape({}).isRequired,
     pushRoute: func.isRequired
 };
 
 const mapStateToProps = ({
     router: {
-        location: { pathname }
+        location
     }
-}) => ({ pathname });
+}) => ({ location });
 
 const mapDispatchToProps = {
     pushRoute: push

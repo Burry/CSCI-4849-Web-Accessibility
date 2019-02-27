@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import { Helmet } from 'react-helmet';
 import { HotKeys } from 'react-hotkeys';
 import { connect } from 'react-redux';
-import { createMatchSelector } from 'connected-react-router';
+import { createMatchSelector, push } from 'connected-react-router';
 import { isMobile } from 'react-device-detect';
 import PhoneNumber from 'awesome-phonenumber';
 import Container from 'react-bootstrap/Container';
@@ -49,10 +49,8 @@ const phoneUri = value =>
     newPhoneNumber(value).getNumber('rfc3966') || `tel:${value}`;
 
 const Keypad = ({ router, pushRoute }) => {
-    const matchSelector = createMatchSelector(
-        `${router.location.pathname}/:numberPath?`
-    );
-    const { params: { numberPath = '' } = {} } = matchSelector({ router });
+    const matchSelector = createMatchSelector('/keypad/:numberPath?');
+    const { params: { numberPath = '' } = {} } = matchSelector({ router }) || {};
 
     const [number, setNumber] = useState(phoneNumber(numberPath));
 
@@ -140,12 +138,7 @@ const Keypad = ({ router, pushRoute }) => {
     );
 
     return (
-        <HotKeys
-            keyMap={keyMap}
-            handlers={keyHandlers}
-            focused
-            ref={keyRegion}
-        >
+        <HotKeys keyMap={keyMap} handlers={keyHandlers} focused ref={keyRegion}>
             <Form onSubmit={callNumber}>
                 <Helmet title="Phone » Keypad" />
                 {/* Number input */}
@@ -266,4 +259,8 @@ const mapStateToProps = ({ router }) => ({
     router
 });
 
-export default connect(mapStateToProps)(Keypad);
+const mapDispatchToProps = {
+    pushRoute: push
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Keypad);
